@@ -22,13 +22,13 @@ class Summarization:
     def __init__(self) -> None:
         # Thanks very much to 🤗 for this magical text summarization
         # pipeline that we're instantiating here:
-        self.pipeline = pipeline('summarization')
+        self.summarization_pipeline = pipeline("summarization")
     
     # This defines a POST /summarize route that:
-        #  * Expects a string of text to summarize.
-        #  * Responds with a string of summarized text.
+        # Expects a string of text to summarize.
+        # Responds with a string of summarized text.
     @bentoml.api
     def summarize(self, text: str = EXAMPLE_INPUT) -> str:
         # Feed the text into
-        result = self.pipeline(text)
-        return result[0]['summary_text']
+        result = self.summarization_pipeline(text, max_length=150, min_length=100)
+        return result[0]["summary_text"]
